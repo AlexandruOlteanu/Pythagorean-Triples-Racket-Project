@@ -44,7 +44,15 @@
 ; Ex: (-1,2,2)·(3,4,5) = -3 + 8 + 10 = 15
 ; Utilizați recursivitate pe stivă.
 (define (dot-product X Y)
-  'your-code-here)
+  (product-help X Y 0)  
+)
+
+(define (product-help X Y Ans) 
+   (cond 
+      [(null? X) Ans]
+      [else (product-help (cdr X) (cdr Y) (+ Ans (* (car X) (car Y))))]
+   )
+)
 
 
 ; TODO
@@ -56,8 +64,16 @@
 ;     |-2 2 3| |5|   |17|
 ; Utilizați recursivitate pe coadă.
 (define (multiply M V)
-  'your-code-here)
+  (multiply-help M V null)
+)
 
+
+(define (multiply-help M V List)
+    (cond 
+      [(null? M) List]
+      [else (multiply-help (cdr M) V (append List (list (dot-product (car M) V))))]
+    )
+)
 
 ; TODO
 ; Implementați o funcție care primește un număr n și
