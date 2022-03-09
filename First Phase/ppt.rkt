@@ -44,16 +44,11 @@
 ; Ex: (-1,2,2)·(3,4,5) = -3 + 8 + 10 = 15
 ; Utilizați recursivitate pe stivă.
 (define (dot-product X Y)
-  (product-help X Y 0)  
+  (cond 
+    [(null? X) 0]
+    [else (+ (* (car X) (car Y)) (dot-product (cdr X) (cdr Y)))] 
+  )
 )
-
-(define (product-help X Y Ans) 
-   (cond 
-      [(null? X) Ans]
-      [else (product-help (cdr X) (cdr Y) (+ Ans (* (car X) (car Y))))]
-   )
-)
-
 
 ; TODO
 ; Implementați o funcție care calculează produsul dintre
@@ -87,8 +82,52 @@
 ; (de exemplu pentru determinarea nivelului din arbore 
 ; pe care se află n, sau a indexului minim/maxim de pe 
 ; nivelul respectiv, etc.)
+
+(define (max a b)
+  (cond 
+    [(>= a b) a]
+    [(< a b) b]
+  )
+)
+
+(define (my-power a b Ans)
+  (cond 
+    [(zero? b) Ans]
+    [else (my-power a (- b 1) (* Ans a))]
+  )
+)
+
+(define (find-level n Ans)
+   (cond 
+     [(>= (quotient (- (my-power 3 Ans 1) 1) 2) n) 0]
+     [else (max Ans (find-level n (+ Ans 1)))]
+   )
+)
+
+(define (calculate-mod a b)
+  (cond 
+    [(= (modulo a b) 0) b]
+    [else (modulo a b)]
+  )
+)
+
+(define (calculate-group a b)
+  (cond 
+    [(= (modulo a b) 0) (quotient a b)]
+    [else (+ (quotient a b) 1)]
+  )
+)
+
+(define (calculate-route n List Level)
+   (cond
+    [(= Level 0) List]
+    [else (calculate-route (calculate-group n 3) (cons (calculate-mod n 3) List) (- Level 1))]
+   )
+)
+
 (define (get-transformations n)
-  'your-code-here)
+  (calculate-route (- n (quotient (- (my-power 3 (find-level n 0) 1) 1) 2)) null (find-level n 0))
+)
 
 
 ; TODO
