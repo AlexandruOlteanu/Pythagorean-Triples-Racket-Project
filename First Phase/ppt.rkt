@@ -137,11 +137,18 @@
 ; în urma aplicării transformărilor din Ts asupra ppt.
 ; Utilizați recursivitate pe coadă.
 (define (apply-matrix-transformations Ts ppt)
-  'your-code-here)
+  (cond 
+    [(null? Ts) ppt]
+    [(= (car Ts) 1) (apply-matrix-transformations (cdr Ts) (multiply T1 ppt))]
+    [(= (car Ts) 2) (apply-matrix-transformations (cdr Ts) (multiply T2 ppt))]
+    [(= (car Ts) 3) (apply-matrix-transformations (cdr Ts) (multiply T3 ppt))]
+  )
+)
 
 
 ; TODO
 ; Implementați o funcție care calculează al n-lea TPP
 ; din arbore, folosind funcțiile anterioare.
 (define (get-nth-ppt-from-matrix-transformations n)
-  'your-code-here)
+  (apply-matrix-transformations (get-transformations n) '(3 4 5))
+)
