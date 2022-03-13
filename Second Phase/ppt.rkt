@@ -80,7 +80,7 @@
 ;     |-2 1 2|·|4| = | 8|
 ;     |-2 2 3| |5|   |17|
 (define (multiply M V)
-  (foldl (lambda(x ans)
+  (foldl (lambda (x ans)
             (append ans (list (dot-product x V)))
         ) null M)
 )
@@ -155,7 +155,10 @@
 ;    Fs să primească parametri de tipul lui tuple)
 ; Nu folosiți recursivitate explicită (ci funcționale).
 (define (apply-functional-transformations Fs tuple)
-  'your-code-here)
+  (foldl (lambda (x ans)
+            (x ans)
+         ) tuple Fs )
+)
 
 
 ; TODO
