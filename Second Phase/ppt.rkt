@@ -66,7 +66,8 @@
 ; Se garantează că X și Y au aceeași lungime.
 ; Ex: (-1,2,2)·(3,4,5) = -3 + 8 + 10 = 15
 (define (dot-product X Y)
-  'your-code-here)
+  (apply + (map * X Y))
+)
 
 
 ; TODO
@@ -79,7 +80,10 @@
 ;     |-2 1 2|·|4| = | 8|
 ;     |-2 2 3| |5|   |17|
 (define (multiply M V)
-  'your-code-here)
+  (foldl (lambda(x ans)
+            (append ans (list (dot-product x V)))
+        ) null M)
+)
 
 
 ; TODO
@@ -87,9 +91,52 @@
 ; funcției get-transformations de la etapa 1.
 ; Această funcție nu este re-punctată de checker, însă este
 ; necesară implementărilor ulterioare.
-(define (get-transformations n)
-  'your-code-here)
 
+(define (max a b)
+  (cond 
+    [(>= a b) a]
+    [(< a b) b]
+  )
+)
+
+(define (my-power a b Ans)
+  (cond 
+    [(zero? b) Ans]
+    [else (my-power a (- b 1) (* Ans a))]
+  )
+)
+
+(define (find-level n Ans)
+   (cond 
+     [(>= (quotient (- (my-power 3 Ans 1) 1) 2) n) 0]
+     [else (max Ans (find-level n (+ Ans 1)))]
+   )
+)
+
+(define (calculate-mod a b)
+  (cond 
+    [(= (modulo a b) 0) b]
+    [else (modulo a b)]
+  )
+)
+
+(define (calculate-group a b)
+  (cond 
+    [(= (modulo a b) 0) (quotient a b)]
+    [else (+ (quotient a b) 1)]
+  )
+)
+
+(define (calculate-route n List Level)
+   (cond
+    [(= Level 0) List]
+    [else (calculate-route (calculate-group n 3) (cons (calculate-mod n 3) List) (- Level 1))]
+   )
+)
+
+(define (get-transformations n)
+  (calculate-route (- n (quotient (- (my-power 3 (find-level n 0) 1) 1) 2)) null (find-level n 0))
+)
 
 ; TODO
 ; În etapa anterioară ați implementat o funcție care primea
