@@ -197,8 +197,8 @@
         (cond 
           [(null? List) tuple]
           [(= (car List) 1) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations (list (car Fs)) tuple))]
-          [(= (car List) 2) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations (list (car (drop Fs 1))) tuple))]
-          [(= (car List) 3) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations (list (car (drop Fs 2))) tuple))]
+          [(= (car List) 2) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations (list (cadr Fs)) tuple))]
+          [(= (car List) 3) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations (list (caddr Fs)) tuple))]
           )
         )
       )
@@ -227,9 +227,29 @@
   )
 )
 
+(define transform-quadruple-to-tuple
+    (lambda (g)
+      (lambda (e)
+        (lambda (f)
+          (lambda (h)
+            (list (* g h) (* (* 2 e) f) (+ (* e e) (* f f)))
+          )
+        )
+      )
+    )
+)
 
 ; TODO
 ; Folosiți rezultatul întors de get-nth-quadruple pentru a 
 ; obține al n-lea TPP din arbore.
 (define get-nth-ppt-from-GH-quadruples
-  'your-code-here)
+  (lambda (n)
+      (get-ppt-from-quadruple-helper (get-nth-quadruple n))
+  )   
+)
+
+(define get-ppt-from-quadruple-helper 
+    (lambda (list)
+        ((((transform-quadruple-to-tuple (car list))(cadr list))(caddr list))(cadddr list))
+    )
+)
