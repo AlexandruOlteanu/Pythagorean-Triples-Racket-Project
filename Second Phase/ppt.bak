@@ -75,7 +75,7 @@
 ; Ex: (-1,2,2)·(3,4,5) = -3 + 8 + 10 = 15
 (define (dot-product X Y)
   (apply + (map * X Y))
-  )
+)
 
 
 ; TODO
@@ -89,9 +89,9 @@
 ;     |-2 2 3| |5|   |17|
 (define (multiply M V)
   (foldl (lambda (x ans)
-           (append ans (list (dot-product x V)))
-           ) null M)
-  )
+            (append ans (list (dot-product x V)))
+        ) null M)
+)
 
 
 ; TODO
@@ -104,47 +104,47 @@
   (cond 
     [(>= a b) a]
     [(< a b) b]
-    )
   )
+)
 
 (define (my-power a b Ans)
   (cond 
     [(zero? b) Ans]
     [else (my-power a (- b 1) (* Ans a))]
-    )
   )
+)
 
 (define (find-level n Ans)
-  (cond 
-    [(>= (quotient (- (my-power 3 Ans 1) 1) 2) n) 0]
-    [else (max Ans (find-level n (+ Ans 1)))]
-    )
-  )
+   (cond 
+     [(>= (quotient (- (my-power 3 Ans 1) 1) 2) n) 0]
+     [else (max Ans (find-level n (+ Ans 1)))]
+   )
+)
 
 (define (calculate-mod a b)
   (cond 
     [(= (modulo a b) 0) b]
     [else (modulo a b)]
-    )
   )
+)
 
 (define (calculate-group a b)
   (cond 
     [(= (modulo a b) 0) (quotient a b)]
     [else (+ (quotient a b) 1)]
-    )
   )
+)
 
 (define (calculate-route n List Level)
-  (cond
+   (cond
     [(= Level 0) List]
     [else (calculate-route (calculate-group n 3) (cons (calculate-mod n 3) List) (- Level 1))]
-    )
-  )
+   )
+)
 
 (define (get-transformations n)
   (calculate-route (- n (quotient (- (my-power 3 (find-level n 0) 1) 1) 2)) null (find-level n 0))
-  )
+)
 
 ; TODO
 ; În etapa anterioară ați implementat o funcție care primea
@@ -164,9 +164,9 @@
 ; Nu folosiți recursivitate explicită (ci funcționale).
 (define (apply-functional-transformations Fs tuple)
   (foldl (lambda (x ans)
-           (x ans)
-           ) tuple Fs )
-  )
+            (x ans)
+         ) tuple Fs )
+)
 
 
 ; TODO
@@ -191,19 +191,19 @@
 ; Din acest motiv checker-ul nu testează separat această funcție,
 ; dar asistentul va observa dacă implementarea respectă cerința.
 (define get-nth-tuple
-  (lambda (List)
-    (lambda (Fs)
-      (lambda (tuple)
-        (cond 
-          [(null? List) tuple]
-          [(= (car List) 1) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations Fs tuple))]
-          [(= (car List) 2) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations Fs tuple))]
-          [(= (car List) 3) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations Fs tuple))]
-          )
+    (lambda (List)
+       (lambda (Fs)
+         (lambda (tuple)
+            (cond 
+              [(null? List) tuple]
+              [(= (car List) 1) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations (list (car Fs)) tuple))]
+              [(= (car List) 2) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations (list (cdar Fs)) tuple))]
+              [(= (car List) 3) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations (list (cddar Fs)) tuple))]
+            )
 
-        )
-      )
-   )
+         )
+       )
+    )
 )
 
 
@@ -212,12 +212,11 @@
 ; (hint: aplicare parțială) o funcție care calculează al n-lea
 ; TPP din arbore, folosind transformările pe triplete.
 (define get-nth-ppt-from-matrix-transformations
-  (lambda (n)
-    ;((car '(FT1 FT2 FT3)) '(3 4 5))
-    (((get-nth-tuple (get-transformations n)) (list FT1 FT2 FT3)) '(3 4 5))
+    (lambda (n)
+      (((get-nth-tuple (get-transformations n)) '(FT1 FT2 FT3)) '(3 4 5))
     )  
   
-  )
+)
 
 
 ; TODO
