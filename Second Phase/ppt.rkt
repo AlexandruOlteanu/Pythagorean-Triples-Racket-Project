@@ -61,10 +61,6 @@
 (define T2 '( (1 2 2)  (2 1 2)  (2 2 3)))
 (define T3 '((1 -2 2) (2 -1 2) (2 -2 3)))
 
-(define (FT1 V) (T1 * V))
-(define (FT2 V) (T2 * V))
-(define (FT3 V) (T3 * V))
-
 
 ; TODO
 ; Reimplementați funcția care calculează produsul scalar
@@ -92,6 +88,10 @@
            (append ans (list (dot-product x V)))
            ) null M)
   )
+
+(define (FT1 V) (multiply T1 V))
+(define (FT2 V) (multiply T2 V))
+(define (FT3 V) (multiply T3 V))
 
 
 ; TODO
@@ -196,11 +196,10 @@
       (lambda (tuple)
         (cond 
           [(null? List) tuple]
-          [(= (car List) 1) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations Fs tuple))]
-          [(= (car List) 2) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations Fs tuple))]
-          [(= (car List) 3) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations Fs tuple))]
+          [(= (car List) 1) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations (list (car Fs)) tuple))]
+          [(= (car List) 2) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations (list (car (drop Fs 1))) tuple))]
+          [(= (car List) 3) (((get-nth-tuple (cdr List)) Fs) (apply-functional-transformations (list (car (drop Fs 2))) tuple))]
           )
-
         )
       )
    )
@@ -213,11 +212,9 @@
 ; TPP din arbore, folosind transformările pe triplete.
 (define get-nth-ppt-from-matrix-transformations
   (lambda (n)
-    ;((car '(FT1 FT2 FT3)) '(3 4 5))
     (((get-nth-tuple (get-transformations n)) (list FT1 FT2 FT3)) '(3 4 5))
     )  
-  
-  )
+)
 
 
 ; TODO
@@ -225,7 +222,10 @@
 ; (hint: aplicare parțială) o funcție care calculează al n-lea 
 ; cvartet din arbore, folosind transformările pe cvartete.
 (define get-nth-quadruple
-  'your-code-here)
+  (lambda (n)
+    (((get-nth-tuple (get-transformations n)) (list FQ1 FQ2 FQ3)) '(1 1 2 3))
+  )
+)
 
 
 ; TODO
