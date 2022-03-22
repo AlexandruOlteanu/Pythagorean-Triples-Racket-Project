@@ -71,7 +71,12 @@
 ; de cod foarte similare (de exemplu, numele operației mod ar
 ; trebui să apară o singură dată).
 (define (key n)
-  'your-code-here)
+  (let* ((tuple (get-nth-quadruple n)) (e (cadr tuple)) (f (caddr tuple)) (mod 27))
+       (foldl (lambda (x ans)
+              (append ans (list (modulo (+ mod (modulo (x e f) mod)) mod)))
+              ) null (list a1 b1 c1 a2 b2 c2 a3 b3 c3))
+  )
+)
 
 
 ; TODO
