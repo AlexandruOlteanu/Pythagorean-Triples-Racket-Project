@@ -86,7 +86,14 @@
 ; (spațiu devine 0, 'a' devine 1 ... 'z' devine 26).
 ; Funcții utile: string->list, char->integer
 (define (message->codes message)
-  'your-code-here)
+    (foldl (lambda (x ans) 
+            (cond 
+              [(equal? (char->integer x) 32) (append ans (list 0))]
+              [else (append ans (list (- (char->integer x) 96)))]
+            )
+          )
+            null (string->list message))  
+)
 
 
 ; TODO
