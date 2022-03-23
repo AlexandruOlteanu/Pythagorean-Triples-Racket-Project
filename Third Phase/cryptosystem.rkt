@@ -102,7 +102,15 @@
 ; (procesul invers celui de la funcția message->codes).
 ; Funcții utile: list->string, integer->char
 (define (codes->message codes)
-  'your-code-here)
+   (list->string (foldl (lambda (x ans)
+                            (cond
+                              [(= x 0) (append ans (list (integer->char 32)))]
+                              [else (append ans (list (integer->char (+ x 96))))]
+                            )
+                        )
+                  null codes)
+   ) 
+)
 
 
 ;; Pentru operațiile de criptare și decriptare, lucrăm
