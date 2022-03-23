@@ -137,7 +137,14 @@
 ; dimensiunea size.
 ; Folosiți cel puțin o formă de let.
 (define (extend-key key size)
-  'your-code-here)
+    (let iter ((i 1) (j 1) (key_sz (length key)) (ans null))
+        (cond 
+        [(> i size) ans]
+        [(= j key_sz) (iter (add1 i) 1 key_sz (append ans (list (car (drop key (sub1 j))))))]
+        [else (iter (add1 i) (add1 j) key_sz (append ans (list (car (drop key (sub1 j))))))]
+        )
+    )
+)
 
 
 ; TODO
