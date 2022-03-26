@@ -160,10 +160,29 @@
 ; Ambele funcții primesc două liste de coduri (reprezentând
 ; mesajul clar/criptat, respectiv cheia) și întorc o listă
 ; de coduri (mesajul criptat/decriptat, după caz).
-(define encrypt-codes
-  'your-code-here)
-(define decrypt-codes
-  'your-code-here)
+
+(define (Fencrypt x y)
+    (modulo (+ x y) 27)
+)
+
+(define (Fdecrypt x y)
+    (modulo (- x y) 27)
+)
+
+(define (transform-message message key func)
+    (foldl (lambda (x y ans)
+             (append ans (list (func x y)))
+           )
+    null message key)
+)
+
+
+(define (encrypt-codes message key)
+  (transform-message message (extend-key key (length message)) Fencrypt)  
+)
+(define (decrypt-codes message key)
+  (transform-message message (extend-key key (length message)) Fdecrypt)  
+)
 
 
 ; TODO
@@ -173,8 +192,10 @@
 ; În acest caz, ambele funcții primesc un șir de caractere
 ; (mesajul clar/criptat) și o listă de coduri (cheia) și
 ; întorc un șir de caractere (mesajul criptat/decriptat).
-(define encrypt-message
-  'your-code-here)
-(define decrypt-message
-  'your-code-here)
+(define (encrypt-message message key)
+  (codes->message (encrypt-codes (message->codes message) key))
+)
+(define (decrypt-message message key)
+  (codes->message (decrypt-codes (message->codes message) key))
+)
            
