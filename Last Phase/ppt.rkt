@@ -1,5 +1,5 @@
 #lang racket
-
+(require racket/stream)
 (provide (all-defined-out))
 
 ;; Dacă ne interesează doar al n-lea TPP din arbore, este
@@ -42,20 +42,31 @@
 ; Cele două funcții nu sunt re-punctate de checker, însă 
 ; sunt necesare generării succesorilor unui nod.
 (define (dot-product X Y)
-  'your-code-here)
+  (apply + (map * X Y))
+  )
+
 
 (define (multiply M V)
-  'your-code-here)
-
+  (foldl (lambda (x ans)
+           (append ans (list (dot-product x V)))
+           ) null M)
+)
 
 ; TODO
 ; Definiți fluxul infinit de TPP folosind algoritmul descris
 ; (parcurgerea BFS a arborelui infinit).
 ; Funcție utilă: stream-append
 ; Folosiți cel puțin o formă de let.
-(define ppt-stream-in-tree-order
-  'your-code-here)
 
+(define (ppt-stream-helper L)
+    (let* ((ans (car L)) (f (multiply T1 ans)) (s (multiply T2 ans)) (t (multiply T3 ans)))
+          (stream-cons ans (ppt-stream-helper (append (cdr L) (list f s t))))
+    )
+)
+
+(define ppt-stream-in-tree-order
+      (ppt-stream-helper (list '(3 4 5)))
+)  
 
 ;; Un alt mod de a genera TPP se folosește de perechi (g, h)
 ;; care indeplinesc condițiile:
