@@ -161,8 +161,28 @@
 ; Definiți fluxul de perechi (g, h) pe care se bazează noua
 ; indexare a TPP.
 ; Nu folosiți recursivitate explicită.
+
+(define (tpp-stream x)
+   (stream-cons x (tpp-stream (+ x 2)))
+)
+
+(define (gcd a b)
+  (cond 
+    [(= b 0) a]
+    [else (gcd b (modulo a b))]
+  )
+)
 (define gh-pairs-stream
-  'your-code-here)
+   (stream-filter (lambda (x)
+                    (cond 
+                    [(= (modulo (car x) 2) 0) #f]
+                    [(>= (car x) (cdr x)) #f]
+                    [(not (= (gcd (car x) (cdr x)) 1)) #f]
+                    [else #t]
+                    
+                    )
+                  ) (pairs (tpp-stream 1) (tpp-stream 3)))  
+)
 
 
 ; TODO
