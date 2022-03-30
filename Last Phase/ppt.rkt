@@ -188,7 +188,21 @@
 ; TODO
 ; Definiți fluxul de TPP corespunzător fluxului anterior de
 ; perechi (g, h).
+
+
+(define (take-ppt-i pos)
+  (let* ((initial (take-element gh-pairs-stream pos)) (x (car initial)) (y (cdr initial)))
+        (list (* x y) (/ (- (* y y) (* x x)) 2) (/ (+ (* y y) (* x x)) 2)) 
+  )
+)
+
+(define (ppt-stream-in-pair-helper i)
+  (stream-cons (take-ppt-i i) (ppt-stream-in-pair-helper (add1 i)))
+)
+
 (define ppt-stream-in-pair-order
-  'your-code-here)
+  (ppt-stream-in-pair-helper 1)   
+)
+
 
 
