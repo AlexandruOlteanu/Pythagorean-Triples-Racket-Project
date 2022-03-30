@@ -140,8 +140,21 @@
 ;  - eliminarea perechilor de numere neprime între ele (care 
 ;    există în rezultatul funcției pairs, dar nu vor mai exista
 ;    în fluxul gh-pairs-stream)
+
+(define (take-element A pos)
+   (stream-first (stream-tail A (sub1 pos)));
+)
+
+(define (pairs-helper G H i j)
+   (cond 
+      [(= i j) (stream-cons (cons (take-element G i) (take-element H j)) (pairs-helper G H 1 (add1 j)))]
+      [else (stream-cons (cons (take-element G i) (take-element H j)) (pairs-helper G H (add1 i) j))]
+   )
+)
+
 (define (pairs G H)
-  'your-code-here)
+    (pairs-helper G H 1 1)
+)
 
 
 ; TODO
